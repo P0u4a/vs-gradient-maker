@@ -1,0 +1,83 @@
+{
+  "name": "vs-gradient-maker",
+  "displayName": "Gradient Maker",
+  "description": "Create beautiful CSS gradients inside VSCode",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:vs-gradient-maker.launch",
+    "onView:vs-gradient-maker-sidebar"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vs-gradient-maker-sidebar-view",
+          "title": "Gradient Maker",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vs-gradient-maker-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "vs-gradient-maker-sidebar",
+          "name": "Gradient Maker",
+          "icon": "media/icon.svg",
+          "contextualTitle": "Gradient Maker"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "vs-gradient-maker.launch",
+        "title": "Launch Gradient Maker"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "concurrently \"rollup -c -w\" \"webpack --watch\"",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@tsconfig/svelte": "^3.0.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.71.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vscode/test-electron": "^2.1.5",
+    "concurrently": "^7.4.0",
+    "eslint": "^8.20.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "rollup": "^2.79.1",
+    "rollup-plugin-svelte": "^6.1.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "svelte": "^3.50.1",
+    "svelte-check": "^2.9.1",
+    "svelte-preprocess": "^4.10.7",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
