@@ -25,11 +25,16 @@
 
     let selectedAngle: SelectedDirection = {angle: 90};
 
+    let animate: boolean = false;
+    let speed: number = 0;
+
 </script>
 
 <h1>Gradient Maker</h1>
 
-<div class="display" />
+<div class="display" 
+    style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor} 0%, {colors.secondaryColor} 100%)"
+/>
 
 <form>
     <b>Primary Color</b>
@@ -47,11 +52,26 @@
 		{/each}
 	</select>
     <br />
+    
+    <b>Animate Gradient ?</b>
+    <input type="checkbox" bind:checked={animate} />
+    {#if animate}
+    <b>Set The Animation Speed</b>
+    <input type="range" bind:value={speed} />
+    <p>{speed}</p>
+    {/if}
 
-    <b>CSS</b>:
+    <br />
+    <b>CSS:</b>
     <div class="code">
         <code>
+            {#if animate}
             background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
+            <br />
+            animation: AnimationName 36s ease infinite;
+            {:else}
+            background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
+            {/if}
         </code>
     </div>
 
@@ -59,11 +79,10 @@
 
 <style>
     .display {
-        /* margin: auto;         */
+        margin: auto;        
         width: 500px;
         height: 250px;
         border: 2px solid rgba(1,1,1,0,0.35);
-        background: linear-gradient(90deg, blue , red);
     }
 
     code {
