@@ -73,10 +73,16 @@ button.secondary:hover {
 	background: var(--vscode-button-secondaryHoverBackground);
 }
 
+select {
+	width: 70px;
+	background-color: #404754;
+}
+
 input:not([type='checkbox']),
 textarea {
 	display: block;
-	width: 100%;
+	width: 42px;
+	height: 42px;
 	border: none;
 	font-family: var(--vscode-font-family);
 	padding: var(--input-padding-vertical) var(--input-padding-horizontal);
