@@ -113,11 +113,6 @@ export class MainPanel {
                     vscode.window.showErrorMessage(data.value);
                     break;
                 }
-                // case "tokens": {
-                //   await Util.globalState.update(accessTokenKey, data.accessToken);
-                //   await Util.globalState.update(refreshTokenKey, data.refreshToken);
-                //   break;
-                // }
             }
         });
     }
@@ -128,13 +123,17 @@ export class MainPanel {
             vscode.Uri.joinPath(this._extensionUri, "out/compiled", "makeGradient.js")
         );
 
+        const styleMainUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "out", "compiled/makeGradient.css")
+        );
+
+        const styleVSCodeUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
+        );
+
         // Uri to load styles into webview from local path
         const stylesResetUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri,"media","reset.css")
-        );
-
-        const stylesMainUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri,"media","vscode.css")
         );
         
         // const cssUri = webview.asWebviewUri(
@@ -155,7 +154,8 @@ export class MainPanel {
                 <meta http-equiv="Content-Security-Policy" content="; img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link href="${stylesResetUri}" rel="stylesheet">
-                <link href="${stylesMainUri}" rel="stylesheet">
+                <link href="${styleVSCodeUri}" rel="stylesheet">
+                <link href="${styleMainUri}" rel="stylesheet">
                 <script defer src="${scriptUri}"  nonce="${nonce}">
                 </script>
 			</head>
