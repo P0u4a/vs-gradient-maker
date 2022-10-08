@@ -1,5 +1,5 @@
 <script lang="ts">
-    
+
     let directions = [
         {angle: 0, logo: "⬆️"},
         {angle: 45, logo: "↗️"},
@@ -13,11 +13,6 @@
 
     let colors = {primaryColor: "#000000", secondaryColor: "#000000"};
 
-    // type SelectedDirection = {
-    //     [key: number]: any;
-    //     [key: string]: any;
-    // };
-
     type SelectedDirection = {
         angle?: number;
         logo?: string;
@@ -25,16 +20,22 @@
 
     let selectedAngle: SelectedDirection = {angle: 90};
 
-    let animate: boolean = false;
-    let speed: number = 0;
+    let animate = false;
+    let animationLength = 1;
 
 </script>
 
 <h1>Gradient Maker</h1>
 
-<div class="display" 
-    style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor} 0%, {colors.secondaryColor} 100%)"
+{#if animate}
+<div class="animateDisplay" 
+    style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
 />
+{:else}
+<div class="noAnimateDisplay" 
+    style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor})"
+/>
+{/if}
 
 <form>
     <b>Primary Color</b>
@@ -53,12 +54,14 @@
 	</select>
     <br />
     
-    <b>Animate Gradient ?</b>
-    <input type="checkbox" bind:checked={animate} />
+    <label>
+        <input type="checkbox" bind:checked={animate} />
+        <b>Animate Gradient</b>
+    </label>
     {#if animate}
-    <b>Set The Animation Speed</b>
-    <input type="range" bind:value={speed} />
-    <p>{speed}</p>
+    <br />
+    <b>Animation Length</b>
+    <input type="range" min=1 max=59 bind:value={animationLength} />
     {/if}
 
     <br />
@@ -68,7 +71,13 @@
             {#if animate}
             background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
             <br />
-            animation: AnimationName 36s ease infinite;
+            animation: gradient {animationLength}s ease infinite;
+            <br />
+            @keyframes gradient &lbrace;
+                0%&lbrace;background-position:0% 50%&rbrace;
+                50%&lbrace;background-position:100% 50%&rbrace;
+                100%&lbrace;background-position:0% 50%&rbrace;
+            &rbrace;
             {:else}
             background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
             {/if}
@@ -78,11 +87,26 @@
 </form>
 
 <style>
-    .display {
+    .noAnimateDisplay {
         margin: auto;        
         width: 500px;
         height: 250px;
         border: 2px solid rgba(1,1,1,0,0.35);
+    }
+
+    .animateDisplay {
+        margin: auto;        
+        width: 500px;
+        height: 250px;
+        border: 2px solid rgba(1,1,1,0,0.35);
+        background-size: 400% 400%;
+        animation: gradient var(--animationLength) ease infinite;
+    }
+
+    @keyframes gradient {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
     }
 
     code {

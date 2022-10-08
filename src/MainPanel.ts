@@ -82,7 +82,7 @@ export class MainPanel {
     public dispose() {
         MainPanel.currentPanel = undefined;
 
-        // Clean up our resources
+        // Clean up resources
         this._panel.dispose();
 
         while (this._disposables.length) {
