@@ -78,7 +78,7 @@ select {
 	background-color: #404754;
 }
 
-input:not([type='checkbox']),
+input:not([type="checkbox"]),
 textarea {
 	display: block;
 	width: 42px;
@@ -94,4 +94,24 @@ textarea {
 input::placeholder,
 textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
+}
+
+input[type="range"] {
+	width: 150px;
+}
+
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	vertical-align: bottom;
+	position: relative;
+	top: -1px;
+}
+
+label {
+	display: block;
+	padding-left: 20px;
+	text-indent: -20px;
 }
