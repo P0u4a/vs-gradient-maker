@@ -67,11 +67,21 @@
 {/if}
 
 <form>
-    <b>Colors</b>
-    <input type="color" bind:value={colors.primaryColor} />
-    <input type="color" bind:value={colors.secondaryColor} />
-    
-    <b>Gradient Type</b>
+    <label>
+        Primary Color
+        <br />
+        <input type="color" bind:value={colors.primaryColor} />
+        <input type="text" bind:value={colors.primaryColor}/>
+    </label>
+    <br />
+    <label>
+        Secondary Color
+        <br />
+        <input type="color" bind:value={colors.secondaryColor} />
+        <input type="text" bind:value={colors.secondaryColor}/>
+    </label>
+    <br />
+    Gradient Type
     <label>
         <input type=radio bind:group={radial} checked={true} value={false}>
         Linear
@@ -81,14 +91,8 @@
         <input type=radio bind:group={radial} value={true}>
         Radial
     </label>
-
-    {#if radial}
-        <b>Gradient Position</b>
-    {:else}
-        <b>Gradient Direction</b>
-    {/if}
     <br />
-
+    Gradient Direction
     {#if radial}
         <select bind:value={selectedPosition}>
             {#each radialPositions as position}
@@ -107,18 +111,17 @@
         </select>
     {/if}
     <br />
-    
     <label>
+        Animate Gradient
         <input type="checkbox" bind:checked={animate} />
-        <b>Animate Gradient</b>
     </label>
+    <br />
     {#if animate}
-        <br />
-        <b>Animation Length</b>
+        Animation Length
         <input type="range" min=1 max=59 bind:value={animationLength} />
     {/if}
 
-    <b>CSS:</b>
+    CSS:
     <div class="code">
         <code>
             {#if animate && !radial}
@@ -151,14 +154,12 @@
 
 <style>
     .noAnimateDisplay {
-        margin: auto;        
         width: 500px;
         height: 250px;
         border: 2px solid rgba(1,1,1,0,0.35);
     }
 
     .animateDisplay {
-        margin: auto;        
         width: 500px;
         height: 250px;
         border: 2px solid rgba(1,1,1,0,0.35);
@@ -175,6 +176,7 @@
     code {
         background-color: #57595f;
         font-family: courier, monospace;
+        font-weight: lighter;
         padding: 0 3px;
         color: whitesmoke;
     }
