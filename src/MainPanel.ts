@@ -3,7 +3,7 @@ import { getNonce } from "./getNonce";
 
 export class MainPanel {
     /**
-     * Track the currently panel. Only allow a single panel to exist at a time.
+     * Track the current panel. Only allow a single panel to exist at a time.
      */
     public static currentPanel: MainPanel | undefined;
 
@@ -18,7 +18,7 @@ export class MainPanel {
             ? vscode.window.activeTextEditor.viewColumn
             : undefined;
 
-        // If we already have a panel, show it.
+        // If panel exists, show it.
         if (MainPanel.currentPanel) {
             MainPanel.currentPanel._panel.reveal(column);
             MainPanel.currentPanel._update();
@@ -34,7 +34,7 @@ export class MainPanel {
                 // Enable javascript in the webview
                 enableScripts: true,
 
-                // And restrict the webview to only loading content from our extension's `media` directory.
+                // Restrict the webview to only load content from our extension's "media" directory.
                 localResourceRoots: [
                     vscode.Uri.joinPath(extensionUri, "media"),
                     vscode.Uri.joinPath(extensionUri, "out/compiled"),
@@ -118,7 +118,7 @@ export class MainPanel {
     }
 
     private _getHtmlForWebview(webview: vscode.Webview) {
-        // // And the uri we use to load this script in the webview
+        //  Uri to load this script in the webview
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "out/compiled", "makeGradient.js")
         );
@@ -135,10 +135,6 @@ export class MainPanel {
         const stylesResetUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri,"media","reset.css")
         );
-        
-        // const cssUri = webview.asWebviewUri(
-        //     vscode.Uri.joinPath(this._extensionUri, "media", "compiled/swiper.css")
-        // );
 
         // Use a nonce to only allow specific scripts to be run
         const nonce = getNonce();
