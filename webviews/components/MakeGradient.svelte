@@ -1,4 +1,18 @@
 <script lang="ts">
+    function randomColorGenerator() : string {
+        const randomColor = "#"+Math.floor(Math.random()*16777215).toString(16);
+
+        return randomColor;
+        
+    }
+
+    let code : HTMLTextAreaElement;
+
+    function copyCss() {
+        code.select();
+
+        navigator.clipboard.writeText(code.value);
+    }
 
     const linearDirections = [
         {angle: 0, logo: "⬆️"},
@@ -23,16 +37,14 @@
         {position: "left top", logo: "↖️"}
     ];
 
-    let colors = {primaryColor: "#000000", secondaryColor: "#000000"};
+    let colors = {primaryColor: randomColorGenerator(), secondaryColor: randomColorGenerator()};
 
     type SelectedDirection = {
         angle?: number;
-        logo?: string;
     };
 
     type SelectedPosition = {
         position?: string;
-        logo?: string;
     };
 
     let selectedAngle: SelectedDirection = {angle: 90};
@@ -93,12 +105,15 @@
     </div>
 
     <div class="secondaryColor">
-        <input type="text" bind:value={colors.secondaryColor}/>
         <input type="color" bind:value={colors.secondaryColor} />
+        <input type="text" bind:value={colors.secondaryColor}/>
     </div>
 
     <div class="randomBtn">
-        <button>
+        <button on:click={() => {
+            colors.primaryColor = randomColorGenerator();
+            colors.secondaryColor = randomColorGenerator();
+        }}>
             Randomize Colors
         </button>
     </div>
@@ -122,9 +137,14 @@
         />
     {/if}
 
+
     <div class="code">
+        <button on:click={() => { copyCss() }}>
+            Copy CSS
+        </button>
+
         {#if animate && !radial}
-        <textarea readonly>
+        <textarea readonly bind:this={code}>
             background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
             animation: gradient {animationLength}s ease infinite;
             @keyframes gradient &lbrace;
@@ -134,7 +154,7 @@
             &rbrace;
         </textarea>
         {:else if animate && radial}
-            <textarea readonly>
+            <textarea readonly bind:this={code}>
                 background: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor});
                 animation: gradient {animationLength}s ease infinite;
                 @keyframes gradient &lbrace;
@@ -144,11 +164,11 @@
                 &rbrace;
             </textarea>
         {:else if !animate && radial}
-            <textarea readonly>
+            <textarea readonly bind:this={code}>
                 background: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor});
             </textarea>
         {:else}
-            <textarea readonly>
+            <textarea readonly bind:this={code}>
                 background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
             </textarea>
         {/if}
@@ -163,6 +183,7 @@
         font-size: 4rem;
         color:#37a7f2;
     }
+
     .container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -189,21 +210,23 @@
     }
 
     .code {
-        grid-area: 6 / 1 / 7 / 6; 
+        grid-area: 6 / 1 / 7 / 6;
     }
 
     .noAnimateDisplay {
         grid-area: 2 / 1 / 5 / 6;
         border: 2px solid rgba(1,1,1,0,0.35);
-        height: 250px;
+        height: 350px;
+        margin-bottom: 0.5rem;
     }
 
     .animateDisplay {
         grid-area: 2 / 1 / 5 / 6;
         border: 2px solid rgba(1,1,1,0,0.35);
-        height: 250px;
+        height: 350px;
         background-size: 400% 400%;
         animation: gradient var(--animationLength) ease infinite;
+        margin-bottom: 0.5rem;
     }
 
     @keyframes gradient {
