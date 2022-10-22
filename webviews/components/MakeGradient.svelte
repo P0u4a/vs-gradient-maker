@@ -1,20 +1,8 @@
 <script lang="ts">
-    function randomColorGenerator() : string {
-        const randomColor = "#"+Math.floor(Math.random()*16777215).toString(16);
-
-        return randomColor;
-        
-    }
+    import { randomColorGenerator } from "../utils/randomColorGenerator";
+    import { copyCss } from "../utils/copyCss";
 
     let code: HTMLTextAreaElement;
-
-    function copyCss() {
-        navigator.clipboard.writeText(code.value);
-        vscode.postMessage({
-            type: "onInfo",
-            value: "Copied CSS 🔥"
-        });
-    }
 
     const linearDirections = [
         {angle: 0, logo: "⬆️"},
@@ -39,7 +27,10 @@
         {position: "left top", logo: "↖️"}
     ];
 
-    let colors = {primaryColor: randomColorGenerator(), secondaryColor: randomColorGenerator()};
+    let colors = {
+        primaryColor: randomColorGenerator(), 
+        secondaryColor: randomColorGenerator()
+    };
 
     type SelectedDirection = {
         angle?: number;
@@ -139,7 +130,7 @@
 
 
     <div class="code">
-        <button on:click={() => { copyCss() }}>
+        <button on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
 
