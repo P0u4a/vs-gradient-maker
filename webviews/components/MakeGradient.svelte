@@ -6,12 +6,14 @@
         
     }
 
-    let code : HTMLTextAreaElement;
+    let code: HTMLTextAreaElement;
 
     function copyCss() {
-        code.select();
-
         navigator.clipboard.writeText(code.value);
+        vscode.postMessage({
+            type: "onInfo",
+            value: "Copied CSS 🔥"
+        });
     }
 
     const linearDirections = [
@@ -58,9 +60,7 @@
 
 </script>
 
-<div class="title">
-    VS Gradient Maker
-</div>
+<div class="title" />
 
 <div class="container">
     <div class="selections">
@@ -144,15 +144,15 @@
         </button>
 
         {#if animate && !radial}
-        <textarea readonly bind:this={code}>
-            background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
-            animation: gradient {animationLength}s ease infinite;
-            @keyframes gradient &lbrace;
-                0%&lbrace;background-position:0% 50%&rbrace;
-                50%&lbrace;background-position:100% 50%&rbrace;
-                100%&lbrace;background-position:0% 50%&rbrace;
-            &rbrace;
-        </textarea>
+            <textarea readonly bind:this={code}>
+                background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
+                animation: gradient {animationLength}s ease infinite;
+                @keyframes gradient &lbrace;
+                    0%&lbrace;background-position:0% 50%&rbrace;
+                    50%&lbrace;background-position:100% 50%&rbrace;
+                    100%&lbrace;background-position:0% 50%&rbrace;
+                &rbrace;
+            </textarea>
         {:else if animate && radial}
             <textarea readonly bind:this={code}>
                 background: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor});
@@ -194,6 +194,7 @@
 
     .selections {
         grid-area: 1 / 1 / 2 / 6;
+        margin: auto;
     }
 
     .primaryColor {
@@ -207,6 +208,7 @@
 
     .randomBtn {
         grid-area: 5 / 3 / 6 / 4; 
+        margin-top: 0.5rem;
     }
 
     .code {
@@ -234,5 +236,5 @@
         50%{background-position:100% 50%}
         100%{background-position:0% 50%}
     }
-
+            
 </style>

@@ -154,6 +154,9 @@ export class MainPanel {
                 <link href="${styleMainUri}" rel="stylesheet">
                 <script defer src="${scriptUri}"  nonce="${nonce}">
                 </script>
+                <script nonce="${nonce}">
+                    const vscode = acquireVsCodeApi();
+                </script
 			</head>
             <body>
 	        </body>
