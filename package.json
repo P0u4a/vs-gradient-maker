@@ -1,8 +1,14 @@
 {
   "name": "vs-gradient-maker",
   "displayName": "Gradient Maker",
-  "description": "Create beautiful CSS gradients inside VSCode",
+  "description": "Create, animate, and view beautiful CSS gradients inside VSCode",
+  "icon": "media/extensionIcon.png",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/P0u4a/vs-gradient-maker.git"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
     "vscode": "^1.71.0"
   },
