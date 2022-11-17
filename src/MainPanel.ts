@@ -64,19 +64,6 @@ export class MainPanel {
         // Listen for when the panel is disposed
         // This happens when the user closes the panel or when the panel is closed programatically
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
-
-        // // Handle messages from the webview
-        // this._panel.webview.onDidReceiveMessage(
-        //   (message) => {
-        //     switch (message.command) {
-        //       case "alert":
-        //         vscode.window.showErrorMessage(message.text);
-        //         return;
-        //     }
-        //   },
-        //   null,
-        //   this._disposables
-        // );
     }
 
     public dispose() {
@@ -118,20 +105,20 @@ export class MainPanel {
     }
 
     private _getHtmlForWebview(webview: vscode.Webview) {
-        //  Uri to load this script in the webview
+        //  Uri to load the main script in the webview
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "out/compiled", "makeGradient.js")
         );
 
         const styleMainUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, "out", "compiled/makeGradient.css")
+            vscode.Uri.joinPath(this._extensionUri, "out/compiled", "makeGradient.css")
         );
 
+        // Uri to load styles into webview from local path
         const styleVSCodeUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
         );
 
-        // Uri to load styles into webview from local path
         const stylesResetUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri,"media","reset.css")
         );
@@ -156,7 +143,7 @@ export class MainPanel {
                 </script>
                 <script nonce="${nonce}">
                     const vscode = acquireVsCodeApi();
-                </script
+                </script>
 			</head>
             <body>
 	        </body>

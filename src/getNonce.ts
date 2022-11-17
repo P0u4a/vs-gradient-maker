@@ -1,4 +1,4 @@
-// Can generate this with a better algorithm later
+// Nonce generator to only allow specific scripts to run in webview
 export function getNonce(): string {
 	let text = "";
 	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
