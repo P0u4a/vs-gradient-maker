@@ -1,9 +1,8 @@
 <script lang="ts">
     import { randomColorGenerator } from "../utils/randomColorGenerator";
     import { copyCss } from "../utils/copyCss";
-
-    let code: HTMLTextAreaElement;
-
+    
+    // Select options 
     const linearDirections = [
         {angle: 0, logo: "⬆️"},
         {angle: 45, logo: "↗️"},
@@ -26,12 +25,16 @@
         {position: "left", logo: "⬅️"},
         {position: "left top", logo: "↖️"}
     ];
+    
+    // CSS code to copy
+    let code: HTMLTextAreaElement;
 
     let colors = {
         primaryColor: randomColorGenerator(), 
         secondaryColor: randomColorGenerator()
     };
 
+    // Custom types for selected options
     type SelectedDirection = {
         angle?: number;
     };
@@ -50,8 +53,6 @@
     let animationLength = 1;
 
 </script>
-
-<div class="title" />
 
 <div class="container">
     <div class="selections">
@@ -87,7 +88,7 @@
         </select>
 
         Animation Length
-        <input disabled={!animate} type="range" min=1 max=59 bind:value={animationLength} />        
+        <input disabled={!animate} type="range" min=1 max=59 bind:value={animationLength} />
     </div>
 
     <div class="primaryColor">
@@ -110,31 +111,34 @@
     </div>
     
     {#if animate && !radial}
-    <div class="animateDisplay" 
-        style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
-    />
+        <div class="animateDisplay" 
+            style="background-image: linear-gradient({selectedAngle.angle}deg, 
+            {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
+        />
 
     {:else if animate && radial}
         <div class="animateDisplay" 
-            style="background-image: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
+            style="background-image: radial-gradient(circle at {selectedPosition.position}, 
+            {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
         />
     {:else if !animate && radial}
         <div class="noAnimateDisplay" 
-            style="background-image: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor})"
+            style="background-image: radial-gradient(circle at {selectedPosition.position}, 
+            {colors.primaryColor}, {colors.secondaryColor})"
         />
     {:else}
         <div class="noAnimateDisplay" 
-            style="background-image: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor})"
+            style="background-image: linear-gradient({selectedAngle.angle}deg, 
+            {colors.primaryColor}, {colors.secondaryColor})"
         />
     {/if}
-
 
     <div class="code">
         <button on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
 
-        {#if animate && !radial}
+        {#if animate && !radial}                
             <textarea readonly bind:this={code}>
                 background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
                 animation: gradient {animationLength}s ease infinite;
@@ -167,14 +171,6 @@
 </div>
 
 <style>
-    .title {
-        margin: 4rem 0;
-        text-align: center;
-        line-height: 0;
-        font-size: 4rem;
-        color:#37a7f2;
-    }
-
     .container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -211,6 +207,7 @@
         border: 2px solid rgba(1,1,1,0,0.35);
         height: 350px;
         margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
     }
 
     .animateDisplay {
@@ -220,6 +217,7 @@
         background-size: 400% 400%;
         animation: gradient var(--animationLength) ease infinite;
         margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
     }
 
     @keyframes gradient {
