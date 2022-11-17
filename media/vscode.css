@@ -39,10 +39,6 @@ input[type="range"]::-webkit-slider-thumb {
 	margin-top: -5px;
 }
 
-/* input[type="radio"] {
-	filter: invert(90%) hue-rotate(180deg) brightness(1);
-} */
-
 button {
 	border: none;
 	padding: var(--input-padding-vertical) var(--input-padding-horizontal);
@@ -78,4 +74,7 @@ textarea {
 	height: 80px;
 	background-color: var(--vscode-input-background);
 	color: var(--vscode-input-foreground);
+	resize: none;
+	font-size: var(--vscode-editor-font-size);
+	font-family: var(--vscode-editor-font-family);
 }
