@@ -16,31 +16,10 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vs-gradient-maker.launch",
-    "onView:vs-gradient-maker-sidebar"
+    "onCommand:vs-gradient-maker.launch"  
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "vs-gradient-maker-sidebar-view",
-          "title": "Gradient Maker",
-          "icon": "media/icon.svg"
-        }
-      ]
-    },
-    "views": {
-      "vs-gradient-maker-sidebar-view": [
-        {
-          "type": "webview",
-          "id": "vs-gradient-maker-sidebar",
-          "name": "Gradient Maker",
-          "icon": "media/icon.svg",
-          "contextualTitle": "Gradient Maker"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "vs-gradient-maker.launch",
