@@ -34,6 +34,9 @@ export class MainPanel {
                 // Enable javascript in the webview
                 enableScripts: true,
 
+                // Persist webview state
+                retainContextWhenHidden: true,
+
                 // Restrict the webview to only load content from our extension's "media" directory.
                 localResourceRoots: [
                     vscode.Uri.joinPath(extensionUri, "media"),
