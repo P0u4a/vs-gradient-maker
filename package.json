@@ -3,6 +3,7 @@
   "displayName": "Gradient Maker",
   "description": "Create, animate, and view beautiful CSS gradients inside VSCode",
   "icon": "media/extensionIcon.png",
+  "publisher": "The Builder",
   "version": "0.0.1",
   "repository": {
     "type": "git",
