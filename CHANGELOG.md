@@ -2,10 +2,11 @@
 
 All notable changes to the vs-gradient-maker extension will be documented in this file.
 
-## [1.0.0] - 2022-11-25
+## [0.0.1] - 2022-11-29
 
 ### Added
 - Copy CSS button and notification
+- Persistance to webview state
 
 ### Fixed
 - Centred the Rnadomize Colors button
