@@ -2,6 +2,11 @@
 
 All notable changes to the vs-gradient-maker extension will be documented in this file.
 
+## [0.1.1] - 2022-12-06
+
+### Changed
+- Switched to nanoid for safer nonce generation
+
 ## [0.0.1] - 2022-11-29
 
 ### Added
