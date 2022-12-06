@@ -2,9 +2,8 @@ import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
 
 export class MainPanel {
-    /**
-     * Track the current panel. Only allow a single panel to exist at a time.
-     */
+    
+    // Track the current panel to only allow a single panel to exist at a time.
     public static currentPanel: MainPanel | undefined;
 
     public static readonly viewType = "main";

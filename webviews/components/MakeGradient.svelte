@@ -29,6 +29,7 @@
     // CSS code to copy
     let code: HTMLTextAreaElement;
 
+    // Defines the gradient colors. Initially random
     let colors = {
         primaryColor: randomColorGenerator(), 
         secondaryColor: randomColorGenerator()
@@ -109,23 +110,25 @@
             Randomize Colors
         </button>
     </div>
-    
+    <!-- Animated linear gradient -->
     {#if animate && !radial}
         <div class="animateDisplay" 
             style="background-image: linear-gradient({selectedAngle.angle}deg, 
             {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
         />
-
+    <!-- Animated radial gradient -->
     {:else if animate && radial}
         <div class="animateDisplay" 
             style="background-image: radial-gradient(circle at {selectedPosition.position}, 
             {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
         />
+    <!-- Static radial gradient -->
     {:else if !animate && radial}
         <div class="noAnimateDisplay" 
             style="background-image: radial-gradient(circle at {selectedPosition.position}, 
             {colors.primaryColor}, {colors.secondaryColor})"
         />
+    <!-- Static linear gradient -->
     {:else}
         <div class="noAnimateDisplay" 
             style="background-image: linear-gradient({selectedAngle.angle}deg, 
@@ -137,7 +140,7 @@
         <button on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
-
+        <!-- This is the gradient code to display to users -->
         {#if animate && !radial}                
             <textarea readonly bind:this={code}>
                 background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
@@ -171,6 +174,7 @@
 </div>
 
 <style>
+    /* Using css grid layout*/
     .container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
