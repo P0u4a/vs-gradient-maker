@@ -1,6 +1,8 @@
 # VS Gradient Maker 🎨
+![installs](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/TheBuilder.vs-gradient-maker?color=107c10&label=Installs&style=flat-square)
+![size](https://img.shields.io/github/repo-size/P0u4a/vs-gradient-maker?color=blue&label=Repo%20Size&style=flat-square)
+![release](https://img.shields.io/visual-studio-marketplace/last-updated/TheBuilder.vs-gradient-maker?color=blueviolet&label=Latest%20Release&style=flat-square)
 ### Create and animate beautiful CSS gradients inside VSCode!
-
 ## Features
 Customise linear or radial gradients using a graphical user interface, recieving real-time updates as you design your gradient.
 
