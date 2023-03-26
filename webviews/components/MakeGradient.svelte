@@ -1,39 +1,44 @@
 <script lang="ts">
     import { randomColorGenerator } from "../utils/randomColorGenerator";
     import { copyCss } from "../utils/copyCss";
-    
-    // Select options 
+
+    // The colourStop will likely turn into its own component
+    type ColorStop = {
+        color: string;
+        position: number;
+    };
+
+    let colorStops: ColorStop[] = [
+        { color: randomColorGenerator(), position: 0 },
+        { color: randomColorGenerator(), position: 100 },
+    ];
+
+    // Select options
     const linearDirections = [
-        {angle: 0, logo: "⬆️"},
-        {angle: 45, logo: "↗️"},
-        {angle: 270, logo: "➡️"},
-        {angle: 135, logo: "↘️"},
-        {angle: 180, logo: "⬇️"},
-        {angle: 225, logo: "↙️"},
-        {angle: 90, logo: "⬅️"},
-        {angle: 315, logo: "↖️"},
+        { angle: 0, logo: "⬆️" },
+        { angle: 45, logo: "↗️" },
+        { angle: 270, logo: "➡️" },
+        { angle: 135, logo: "↘️" },
+        { angle: 180, logo: "⬇️" },
+        { angle: 225, logo: "↙️" },
+        { angle: 90, logo: "⬅️" },
+        { angle: 315, logo: "↖️" },
     ];
 
     const radialPositions = [
-        {position: "center", logo: "🅾️"},
-        {position: "top", logo: "⬆️"},
-        {position: "right top", logo: "↗️"},
-        {position: "right", logo: "➡️"},
-        {position: "right bottom", logo: "↘️"},
-        {position: "bottom", logo: "⬇️"},
-        {position: "left bottom", logo: "↙️"},
-        {position: "left", logo: "⬅️"},
-        {position: "left top", logo: "↖️"}
+        { position: "center", logo: "🅾️" },
+        { position: "top", logo: "⬆️" },
+        { position: "right top", logo: "↗️" },
+        { position: "right", logo: "➡️" },
+        { position: "right bottom", logo: "↘️" },
+        { position: "bottom", logo: "⬇️" },
+        { position: "left bottom", logo: "↙️" },
+        { position: "left", logo: "⬅️" },
+        { position: "left top", logo: "↖️" },
     ];
-    
+
     // CSS code to copy
     let code: HTMLTextAreaElement;
-
-    // Defines the gradient colors. Initially random
-    let colors = {
-        primaryColor: randomColorGenerator(), 
-        secondaryColor: randomColorGenerator()
-    };
 
     // Custom types for selected options
     type SelectedDirection = {
@@ -44,8 +49,8 @@
         position?: string;
     };
 
-    let selectedAngle: SelectedDirection = {angle: 90};
-    let selectedPosition: SelectedPosition = {position: "center"}; 
+    let selectedAngle: SelectedDirection = { angle: 90 };
+    let selectedPosition: SelectedPosition = { position: "center" };
 
     let animate = false;
 
@@ -53,17 +58,61 @@
 
     let animationLength = 1;
 
+    // All of these functions will be converted to modules and go in the utils directory
+    function addColor() {
+
+        let increment = colorStops[colorStops.length - 1].position+10;
+
+        // Prevent position value from overflowing
+        if (increment > 100) {
+            increment = (colorStops[colorStops.length - 1].position/2);
+        }
+
+        const newColor = {
+            color: randomColorGenerator(),
+            position: increment
+        };
+
+        colorStops = [...colorStops, newColor];
+    }
+
+    function removeColor(index: number) {
+        if (colorStops.length === 2) {
+            return;
+        }
+
+        colorStops = colorStops.filter((_, i) => i !== index);
+    }
+
+    function getGradient() {
+        const colors = colorStops
+            .sort((a, b) => a.position - b.position)
+            .map((color, i) => `${color.color} ${color.position}%`)
+            .join(", ");
+
+        const direction = radial
+            ? selectedPosition.position
+            : selectedAngle.angle;
+
+        return `background-image: linear-gradient(${direction}, ${colors});`;
+    }
+
+    function randomise() {
+        colorStops.forEach((color) => {
+            color.color = randomColorGenerator();
+        });
+    }
 </script>
 
 <div class="container">
     <div class="selections">
-        Gradient Type
+        <span class="select-heading">Gradient Type</span>
         <select bind:value={radial}>
             <option value={false} selected>Linear</option>
-            <option value={true}>Radial</option>        
+            <option value={true}>Radial</option>
         </select>
-        
-        Gradient Direction
+
+        <span class="select-heading">Gradient Direction</span>
         {#if radial}
             <select bind:value={selectedPosition}>
                 {#each radialPositions as position}
@@ -81,153 +130,142 @@
                 {/each}
             </select>
         {/if}
-        
-        Animate Gradient
+
+        <span class="select-heading">Animate Gradient</span>
         <select bind:value={animate}>
             <option value={false} selected>❌</option>
-            <option value={true}>✅</option>        
+            <option value={true}>✅</option>
         </select>
 
-        Animation Length
-        <input disabled={!animate} type="range" min=1 max=59 bind:value={animationLength} />
+        <span class="select-heading">Animation Length</span>
+        <input
+            disabled={!animate}
+            type="range"
+            min="1"
+            max="59"
+            bind:value={animationLength}
+        />
     </div>
+    <div class="gradient-preview" style={getGradient()} />
 
-    <div class="primaryColor">
-        <input type="color" bind:value={colors.primaryColor} />        
-        <input type="text" bind:value={colors.primaryColor}/>
-    </div>
-
-    <div class="secondaryColor">
-        <input type="color" bind:value={colors.secondaryColor} />
-        <input type="text" bind:value={colors.secondaryColor}/>
-    </div>
-
-    <div class="randomBtn">
-        <button on:click={() => {
-            colors.primaryColor = randomColorGenerator();
-            colors.secondaryColor = randomColorGenerator();
-        }}>
+    <div class="top-btn">
+        <button on:click={addColor}>
+            Add color
+        </button>
+    
+        <button
+            on:click={() => {
+                randomise();
+            }}
+        >
             Randomize Colors
         </button>
     </div>
-    <!-- Animated linear gradient -->
-    {#if animate && !radial}
-        <div class="animateDisplay" 
-            style="background-image: linear-gradient({selectedAngle.angle}deg, 
-            {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
-        />
-    <!-- Animated radial gradient -->
-    {:else if animate && radial}
-        <div class="animateDisplay" 
-            style="background-image: radial-gradient(circle at {selectedPosition.position}, 
-            {colors.primaryColor}, {colors.secondaryColor}); --animationLength:{animationLength}s"
-        />
-    <!-- Static radial gradient -->
-    {:else if !animate && radial}
-        <div class="noAnimateDisplay" 
-            style="background-image: radial-gradient(circle at {selectedPosition.position}, 
-            {colors.primaryColor}, {colors.secondaryColor})"
-        />
-    <!-- Static linear gradient -->
-    {:else}
-        <div class="noAnimateDisplay" 
-            style="background-image: linear-gradient({selectedAngle.angle}deg, 
-            {colors.primaryColor}, {colors.secondaryColor})"
-        />
-    {/if}
+
+    <div class="color-stops">
+        {#each colorStops as color, i}
+            <div class="color-control">
+                <input type="color" bind:value={color.color} />
+                <input
+                    class="color-input"
+                    type="number"
+                    min="0"
+                    max="100"
+                    bind:value={color.position}
+                />
+                <button class="delete-btn" on:click={() => removeColor(i)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 16 16" width="16" height="16"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path></svg>
+                </button>
+            </div>
+        {/each}
+    </div>
 
     <div class="code">
-        <button on:click={() => { copyCss(code) }}>
+        <button class="copy-btn" on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
-        <!-- This is the gradient code to display to users -->
-        {#if animate && !radial}                
-            <textarea readonly bind:this={code}>
-                background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
-                animation: gradient {animationLength}s ease infinite;
-                @keyframes gradient &lbrace;
-                    0%&lbrace;background-position:0% 50%&rbrace;
-                    50%&lbrace;background-position:100% 50%&rbrace;
-                    100%&lbrace;background-position:0% 50%&rbrace;
-                &rbrace;
-            </textarea>
-        {:else if animate && radial}
-            <textarea readonly bind:this={code}>
-                background: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor});
-                animation: gradient {animationLength}s ease infinite;
-                @keyframes gradient &lbrace;
-                    0%&lbrace;background-position:0% 50%&rbrace;
-                    50%&lbrace;background-position:100% 50%&rbrace;
-                    100%&lbrace;background-position:0% 50%&rbrace;
-                &rbrace;
-            </textarea>
-        {:else if !animate && radial}
-            <textarea readonly bind:this={code}>
-                background: radial-gradient(circle at {selectedPosition.position}, {colors.primaryColor}, {colors.secondaryColor});
-            </textarea>
-        {:else}
-            <textarea readonly bind:this={code}>
-                background: linear-gradient({selectedAngle.angle}deg, {colors.primaryColor}, {colors.secondaryColor});
-            </textarea>
-        {/if}
+        <textarea readonly>
+            CSS CODE WILL GO HERE
+        </textarea>
     </div>
+
+
 </div>
 
 <style>
-    /* Using css grid layout*/
     .container {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: 0.5fr repeat(5, 1fr);
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .selections {
-        grid-area: 1 / 1 / 2 / 6;
-        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
-    .primaryColor {
-        grid-area: 5 / 1 / 6 / 3; 
+    .gradient-preview {
+        height: 300px;
+        width: 100%;
+        background-color: black;
     }
 
-    .secondaryColor {
-        grid-area: 5 / 4 / 6 / 6; 
-        margin-left: auto;    
+    .color-stops {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 10px;
+        margin-right: auto;
+        margin-left: 0;
     }
 
-    .randomBtn {
-        grid-area: 5 / 3 / 6 / 4; 
-        margin-top: 0.5rem;
+    .color-control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .color-control input[type="color"] {
+        margin-bottom: 5px;
+    }
+
+    .top-btn {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .delete-btn {
+        margin-top: 5px;
+        width: 20px;
+        height: 20px;
     }
 
     .code {
-        grid-area: 6 / 1 / 7 / 6;
+        width: 100%;
+        margin-right: auto;
+        margin-left: 0;
+        margin-top: 10px;
     }
 
-    .noAnimateDisplay {
-        grid-area: 2 / 1 / 5 / 6;
-        border: 2px solid rgba(1,1,1,0,0.35);
-        height: 350px;
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .animateDisplay {
-        grid-area: 2 / 1 / 5 / 6;
-        border: 2px solid rgba(1,1,1,0,0.35);
-        height: 350px;
-        background-size: 400% 400%;
-        animation: gradient var(--animationLength) ease infinite;
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
+    .select-heading {
+        margin-right:5px; 
+        margin-left: 5px;
     }
 
     @keyframes gradient {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
-            
 </style>
