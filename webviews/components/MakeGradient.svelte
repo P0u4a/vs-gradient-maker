@@ -60,17 +60,12 @@
 
     // All of these functions will be converted to modules and go in the utils directory
     function addColor() {
-
-        let increment = colorStops[colorStops.length - 1].position+10;
-
-        // Prevent position value from overflowing
-        if (increment > 100) {
-            increment = (colorStops[colorStops.length - 1].position/2);
-        }
-
+        // Temporary limit, may change in the future
+        if (colorStops.length > 5) return;
+        
         const newColor = {
             color: randomColorGenerator(),
-            position: increment
+            position: colorStops[colorStops.length - 1].position+10
         };
 
         colorStops = [...colorStops, newColor];
@@ -84,24 +79,33 @@
         colorStops = colorStops.filter((_, i) => i !== index);
     }
 
-    function getGradient() {
+    let gradient : string;
+
+    $: {
         const colors = colorStops
             .sort((a, b) => a.position - b.position)
             .map((color, i) => `${color.color} ${color.position}%`)
             .join(", ");
 
+        const mode = radial
+            ? "radial-gradient(circle at "
+            : "linear-gradient(";
+
         const direction = radial
             ? selectedPosition.position
-            : selectedAngle.angle;
+            : `${selectedAngle.angle}deg`;
 
-        return `background-image: linear-gradient(${direction}, ${colors});`;
+
+        gradient = `background: ${mode}${direction}, ${colors});`;
     }
+
 
     function randomise() {
-        colorStops.forEach((color) => {
-            color.color = randomColorGenerator();
-        });
+        for (let i = 0; i < colorStops.length; i++) {
+            colorStops[i].color = randomColorGenerator();
+        }
     }
+
 </script>
 
 <div class="container">
@@ -146,7 +150,7 @@
             bind:value={animationLength}
         />
     </div>
-    <div class="gradient-preview" style={getGradient()} />
+    <div class="gradient-preview" style={gradient} />
 
     <div class="top-btn">
         <button on:click={addColor}>
@@ -154,9 +158,7 @@
         </button>
     
         <button
-            on:click={() => {
-                randomise();
-            }}
+            on:click={randomise}
         >
             Randomize Colors
         </button>
@@ -184,79 +186,14 @@
         <button class="copy-btn" on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
-        <textarea readonly>
-            CSS CODE WILL GO HERE
+        <textarea readonly bind:this={code}>
+            {gradient}
         </textarea>
     </div>
-
-
 </div>
 
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .selections {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .gradient-preview {
-        height: 300px;
-        width: 100%;
-        background-color: black;
-    }
-
-    .color-stops {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        padding: 10px;
-        margin-right: auto;
-        margin-left: 0;
-    }
-
-    .color-control {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 10px;
-    }
-
-    .color-control input[type="color"] {
-        margin-bottom: 5px;
-    }
-
-    .top-btn {
-        margin-right: auto;
-        margin-left: 0;
-    }
-
-    .delete-btn {
-        margin-top: 5px;
-        width: 20px;
-        height: 20px;
-    }
-
-    .code {
-        width: 100%;
-        margin-right: auto;
-        margin-left: 0;
-        margin-top: 10px;
-    }
-
-    .select-heading {
-        margin-right:5px; 
-        margin-left: 5px;
-    }
-
+    
     @keyframes gradient {
         0% {
             background-position: 0% 50%;
