@@ -3,11 +3,6 @@
     import { randomColorGenerator } from "../utils/randomColorGenerator";
     import { copyCss } from "../utils/copyCss";
 
-    type ColorStop = {
-        color: string;
-        position: number;
-    };
-
     let colorStops: ColorStop[] = [
         { color: randomColorGenerator(), position: 0 },
         { color: randomColorGenerator(), position: 100 },
@@ -39,15 +34,6 @@
 
     // CSS code to copy
     let code: HTMLTextAreaElement;
-
-    // Custom types for selected options
-    type SelectedDirection = {
-        angle?: number;
-    };
-
-    type SelectedPosition = {
-        position?: string;
-    };
 
     let selectedAngle: SelectedDirection = { angle: 90 };
     let selectedPosition: SelectedPosition = { position: "center" };
@@ -85,7 +71,7 @@
     let gradient: string;
 
     $: {
-        // Need to create a copy of the color stops to prevent the UI from changing
+        // Creating a copy to prevent the UI position changing
         // after the ColorStop object is sorted
         const colorStopsCopy = [...colorStops];
         const colors = colorStopsCopy
@@ -167,9 +153,9 @@
     <div class="gradient-preview" style={gradient} />
 
     <div class="top-btn">
-        <button on:click={addColor}> Add Color </button>
+        <button on:click={addColor}>Add Color</button>
 
-        <button on:click={randomise}> Randomize Colors </button>
+        <button on:click={randomise}>Randomize</button>
     </div>
 
     <div class="color-stops">
