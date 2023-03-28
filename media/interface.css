@@ -1,0 +1,77 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selections {
+    display: block;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.gradient-preview {
+    height: 300px;
+    width: 100%;
+}
+
+.color-stops {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 10px;
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.color-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.color-control input[type="color"] {
+    margin-bottom: 5px;
+}
+
+.top-btn {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.code {
+    width: 100%;
+    margin-right: auto;
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+.select-heading {
+    margin-right:5px; 
+    margin-left: 5px;
+}
+
+@keyframes animationName {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

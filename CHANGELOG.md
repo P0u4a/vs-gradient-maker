@@ -2,6 +2,14 @@
 
 All notable changes to the vs-gradient-maker extension will be documented in this file.
 
+## [1.0.0] - 2023-03-28
+
+### Added
+- Support for adding and removing breakpoints and changing their position
+
+### Removed
+- Hex color input, as it was already supported by the color input element
+
 ## [0.1.1] - 2022-12-06
 
 ### Changed
@@ -14,7 +22,7 @@ All notable changes to the vs-gradient-maker extension will be documented in thi
 - Persistance to webview state
 
 ### Fixed
-- Centred the Rnadomize Colors button
+- Centred the Randomize Colors button
 - Prevented slider from overlapping with gradient display on smaller window sizes
 
 ## [Unreleased]

@@ -121,6 +121,10 @@ export class MainPanel {
             vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
         );
 
+        const styleInterfaceUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "media", "interface.css")
+        );
+
         const stylesResetUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this._extensionUri,"media","reset.css")
         );
@@ -141,6 +145,7 @@ export class MainPanel {
                 <link href="${stylesResetUri}" rel="stylesheet">
                 <link href="${styleVSCodeUri}" rel="stylesheet">
                 <link href="${styleMainUri}" rel="stylesheet">
+                <link href="${styleInterfaceUri}" rel="stylesheet">
                 <script defer src="${scriptUri}"  nonce="${nonce}">
                 </script>
                 <script nonce="${nonce}">
