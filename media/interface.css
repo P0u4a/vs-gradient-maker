@@ -5,9 +5,9 @@
 }
 
 .selections {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: block;
+    margin: auto;
+    text-align: center;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
@@ -16,7 +16,6 @@
 .gradient-preview {
     height: 300px;
     width: 100%;
-    background-color: black;
 }
 
 .color-stops {
@@ -45,6 +44,9 @@
 }
 
 .delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 5px;
     width: 20px;
     height: 20px;
@@ -60,4 +62,16 @@
 .select-heading {
     margin-right:5px; 
     margin-left: 5px;
+}
+
+@keyframes animationName {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }

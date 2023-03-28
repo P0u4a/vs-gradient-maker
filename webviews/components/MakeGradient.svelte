@@ -62,10 +62,13 @@
     function addColor() {
         // Temporary limit on the number of color stops, may change in the future
         if (colorStops.length > 5) return;
-        
+
         const newColor = {
             color: randomColorGenerator(),
-            position: colorStops[colorStops.length - 1].position+10 > 100 ? colorStops[colorStops.length - 1].position/2 : colorStops[colorStops.length - 1].position+10
+            position:
+                colorStops[colorStops.length - 1].position + 10 > 100
+                    ? colorStops[colorStops.length - 1].position / 2
+                    : colorStops[colorStops.length - 1].position + 10,
         };
 
         colorStops = [...colorStops, newColor];
@@ -79,35 +82,44 @@
         colorStops = colorStops.filter((_, i) => i !== index);
     }
 
-    let gradient : string;
+    let gradient: string;
 
     $: {
         // Need to create a copy of the color stops to prevent the UI from changing
         // after the ColorStop object is sorted
-        const colorStopsCopy = [...colorStops]; 
+        const colorStopsCopy = [...colorStops];
         const colors = colorStopsCopy
             .sort((a, b) => a.position - b.position)
             .map((color, i) => `${color.color} ${color.position}%`)
             .join(", ");
 
-        const mode = radial
-            ? "radial-gradient(circle at "
-            : "linear-gradient(";
+        const mode = radial ? "radial-gradient(circle at " : "linear-gradient(";
 
         const direction = radial
             ? selectedPosition.position
             : `${selectedAngle.angle}deg`;
 
-        gradient = `background: ${mode}${direction}, ${colors});`;
+        const animation = animate
+            ? `\nbackground-size: 400% 400%;\nanimation: animationName ${animationLength}s ease infinite;\n@keyframes animationName {
+    0% {
+        background-position: 0% 50%;
     }
-
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}`
+            : "";
+        gradient = `background: ${mode}${direction}, ${colors}); ${animation}`;
+    }
 
     function randomise() {
         for (let i = 0; i < colorStops.length; i++) {
             colorStops[i].color = randomColorGenerator();
         }
     }
-
 </script>
 
 <div class="container">
@@ -155,15 +167,9 @@
     <div class="gradient-preview" style={gradient} />
 
     <div class="top-btn">
-        <button on:click={addColor}>
-            Add color
-        </button>
-    
-        <button
-            on:click={randomise}
-        >
-            Randomize Colors
-        </button>
+        <button on:click={addColor}> Add Color </button>
+
+        <button on:click={randomise}> Randomize Colors </button>
     </div>
 
     <div class="color-stops">
@@ -178,30 +184,31 @@
                     bind:value={color.position}
                 />
                 <button class="delete-btn" on:click={() => removeColor(i)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 16 16" width="16" height="16"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path></svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#fff"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        height="16"
+                        style="text-align:center"
+                        ><path
+                            d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"
+                        /></svg
+                    >
                 </button>
             </div>
         {/each}
     </div>
 
     <div class="code">
-        <button class="copy-btn" on:click={() => { copyCss(code) }}>
+        <button
+            class="copy-btn"
+            on:click={() => {
+                copyCss(code);
+            }}
+        >
             Copy CSS
         </button>
         <textarea readonly bind:this={code}>{gradient}</textarea>
     </div>
 </div>
-
-<style>
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-</style>
