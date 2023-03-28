@@ -1,5 +1,4 @@
 <script lang="ts">
-    // TODO: FIX COLOUR STOPS MOVING AROUND IN THE UI
     import { randomColorGenerator } from "../utils/randomColorGenerator";
     import { copyCss } from "../utils/copyCss";
 
@@ -44,7 +43,6 @@
 
     let animationLength = 1;
 
-    // All of these functions will be converted to modules and go in the utils directory
     function addColor() {
         // Temporary limit on the number of color stops, may change in the future
         if (colorStops.length > 5) return;
@@ -52,6 +50,7 @@
         const newColor = {
             color: randomColorGenerator(),
             position:
+                // Make sure position value doesn't go over 100
                 colorStops[colorStops.length - 1].position + 10 > 100
                     ? colorStops[colorStops.length - 1].position / 2
                     : colorStops[colorStops.length - 1].position + 10,
@@ -75,6 +74,7 @@
         // after the ColorStop object is sorted
         const colorStopsCopy = [...colorStops];
         const colors = colorStopsCopy
+            // Construct gradient code here
             .sort((a, b) => a.position - b.position)
             .map((color, i) => `${color.color} ${color.position}%`)
             .join(", ");
@@ -86,17 +86,12 @@
             : `${selectedAngle.angle}deg`;
 
         const animation = animate
-            ? `\nbackground-size: 400% 400%;\nanimation: animationName ${animationLength}s ease infinite;\n@keyframes animationName {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}`
+            ? `\nbackground-size: 400% 400%;\nanimation: animationName ${animationLength}s ease infinite;
+                \n@keyframes animationName {
+                    \n  0% { background-position: 0% 50%; }
+                    \n  50% { background-position: 100% 50%; }
+                    \n  100% { background-position: 0% 50%; }
+                  \n}`
             : "";
         gradient = `background: ${mode}${direction}, ${colors}); ${animation}`;
     }
@@ -106,6 +101,7 @@
             colorStops[i].color = randomColorGenerator();
         }
     }
+
 </script>
 
 <div class="container">
