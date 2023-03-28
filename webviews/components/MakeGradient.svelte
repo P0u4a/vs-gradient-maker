@@ -1,8 +1,8 @@
 <script lang="ts">
+    // TODO: FIX COLOUR STOPS MOVING AROUND IN THE UI
     import { randomColorGenerator } from "../utils/randomColorGenerator";
     import { copyCss } from "../utils/copyCss";
 
-    // The colourStop will likely turn into its own component
     type ColorStop = {
         color: string;
         position: number;
@@ -60,12 +60,12 @@
 
     // All of these functions will be converted to modules and go in the utils directory
     function addColor() {
-        // Temporary limit, may change in the future
+        // Temporary limit on the number of color stops, may change in the future
         if (colorStops.length > 5) return;
         
         const newColor = {
             color: randomColorGenerator(),
-            position: colorStops[colorStops.length - 1].position+10
+            position: colorStops[colorStops.length - 1].position+10 > 100 ? colorStops[colorStops.length - 1].position/2 : colorStops[colorStops.length - 1].position+10
         };
 
         colorStops = [...colorStops, newColor];
@@ -82,7 +82,10 @@
     let gradient : string;
 
     $: {
-        const colors = colorStops
+        // Need to create a copy of the color stops to prevent the UI from changing
+        // after the ColorStop object is sorted
+        const colorStopsCopy = [...colorStops]; 
+        const colors = colorStopsCopy
             .sort((a, b) => a.position - b.position)
             .map((color, i) => `${color.color} ${color.position}%`)
             .join(", ");
@@ -94,7 +97,6 @@
         const direction = radial
             ? selectedPosition.position
             : `${selectedAngle.angle}deg`;
-
 
         gradient = `background: ${mode}${direction}, ${colors});`;
     }
@@ -186,14 +188,11 @@
         <button class="copy-btn" on:click={() => { copyCss(code) }}>
             Copy CSS
         </button>
-        <textarea readonly bind:this={code}>
-            {gradient}
-        </textarea>
+        <textarea readonly bind:this={code}>{gradient}</textarea>
     </div>
 </div>
 
 <style>
-    
     @keyframes gradient {
         0% {
             background-position: 0% 50%;
