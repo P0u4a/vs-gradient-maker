@@ -31,6 +31,13 @@
         { position: "left top", logo: "↖️" },
     ];
 
+    // Gradient code colors
+    enum ColorMode {
+        HEX,
+        RGB,
+        HSL
+    }
+
     // CSS code to copy
     let code: HTMLTextAreaElement;
 
@@ -110,6 +117,13 @@
         <select bind:value={radial}>
             <option value={false} selected>Linear</option>
             <option value={true}>Radial</option>
+        </select>
+
+        <span class="select-heading">Color Mode</span>
+        <select>
+            <option value={ColorMode.HEX} selected>HEX</option>
+            <option value={ColorMode.RGB}>RGB</option>
+            <option value={ColorMode.HSL}>HSL</option>
         </select>
 
         <span class="select-heading">Gradient Direction</span>
