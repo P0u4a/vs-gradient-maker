@@ -27,6 +27,9 @@ and copy the CSS code directly to your clipboard!
 **Enjoy!**
 
 ## Release Notes
+### 1.1.0
+Minor release of VS Gradient Maker. 
+- Adds support for HSL and RGB gradient formats.
 ### 1.0.0
 Major release of VS Gradient Maker.
 ### 0.0.1
