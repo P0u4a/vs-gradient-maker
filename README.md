@@ -10,7 +10,9 @@ Customise linear or radial gradients using a graphical user interface, recieving
 
 Go to the Command Palette using ```ctr + shift + p```, type the command ```>Launch Gradient Maker``` and press enter to open the gradient editor.
 
-NEW 🔥 Add, remove and move color stops...
+NEW IN 1.1.0 🔥 Now supporting RGB and HSL gradient formats. 
+
+Add, remove and move color stops...
 
 ![color](https://user-images.githubusercontent.com/66873325/228188950-1ed64f93-0152-45d5-840d-065817ecd5b7.gif)
 
