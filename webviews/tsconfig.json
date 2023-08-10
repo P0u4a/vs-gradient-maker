@@ -5,7 +5,18 @@
     "compilerOptions": {
         "strict": true, 
         "types": ["node", "svelte"],
-        "ignoreDeprecations": "5.0"
+        "baseUrl": ".",
+        "paths": {
+            "@utils/*": [
+                "webviews/utils/*"
+            ],
+            "@types/*": [
+                "webviews/types/*"
+            ],
+            "@components/*": [
+                "webviews/components/*"
+            ]
+        }
     }
 
 }
