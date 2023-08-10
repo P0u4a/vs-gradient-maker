@@ -5,18 +5,7 @@
     "compilerOptions": {
         "strict": true, 
         "types": ["node", "svelte"],
-        "baseUrl": ".",
-        "paths": {
-            "@utils/*": [
-                "webviews/utils/*"
-            ],
-            "@types/*": [
-                "webviews/types/*"
-            ],
-            "@components/*": [
-                "webviews/components/*"
-            ]
-        }
+        "baseUrl": "./"
     }
 
 }
