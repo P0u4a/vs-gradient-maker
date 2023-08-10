@@ -2,6 +2,11 @@
 
 All notable changes to the vs-gradient-maker extension will be documented in this file.
 
+## [1.1.0] - 2023-8-11
+
+### Added
+- Support for HSL and RGB gradient formats in the generated CSS
+
 ## [1.0.0] - 2023-03-28
 
 ### Added
