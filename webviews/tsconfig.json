@@ -4,7 +4,8 @@
     "exclude": ["../node_modules/*"],
     "compilerOptions": {
         "strict": true, 
-        "types": ["node", "svelte"]
+        "types": ["node", "svelte"],
+        "ignoreDeprecations": "5.0"
     }
 
 }
